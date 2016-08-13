@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView clientList;
-    private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
+    private String[] lvs = {"List Item 01", "List Item 02", "List Item 03"};
     private ArrayAdapter arrayAdapter;
 
     @Override 
