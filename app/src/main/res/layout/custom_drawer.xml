@@ -13,7 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
+        android:orientation="vertical"
         android:layout_gravity="start">
+        <RelativeLayout
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+            <com.example.freda.easyeatclient.Utils.CircleImg
+                android:id="@+id/clientPic"
+                android:src="@mipmap/ic_launcher"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+        </RelativeLayout>
         <ListView
             android:id="@+id/clientList"
             android:layout_width="match_parent"

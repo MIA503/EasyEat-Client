@@ -2,4 +2,7 @@
     <string name="app_name">EasyEatClient</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="takephoto">Take photo</string>
+    <string name="choosephoto">Choose form Photos</string>
+    <string name="cancle">Cancle</string>
 </resources>
