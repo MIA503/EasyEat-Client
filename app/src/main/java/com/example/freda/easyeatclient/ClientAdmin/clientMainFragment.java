@@ -1,6 +1,8 @@
 package com.example.freda.easyeatclient.ClientAdmin;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.freda.easyeatclient.R;
 import com.example.freda.easyeatclient.Utils.CircleImg;
@@ -37,6 +40,7 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
 
     private RecyclerView clientList;
     private CircleImg clientPicImg;
+    private ImageView editImg;
 
     private MyRecyclerAdapter clientAdapter;
     private SelectPicPopupWindow menuWindow;
@@ -50,6 +54,7 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         this.view =  inflater.inflate(R.layout.client_drawer_main,container,false);
         clientList = (RecyclerView) view.findViewById(R.id.clientList);
         clientPicImg = (CircleImg) view.findViewById(R.id.clientPic);
+        editImg = (ImageView) view.findViewById(R.id.edit_img);
         initView();
 
         return view;
@@ -62,6 +67,7 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
 
 
         clientPicImg.setOnClickListener(this);
+        editImg.setOnClickListener(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -97,7 +103,14 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
             case R.id.clientPic:
                 menuWindow = new SelectPicPopupWindow(this.getActivity(),itemsOnClick);
 
-                menuWindow.showAtLocation(getActivity().findViewById(R.id.mainLayout), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL,0,0);
+                menuWindow.showAtLocation(getActivity().findViewById(R.id.dl_left), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL,0,0);
+                break;
+            case R.id.edit_img:
+                ClientEditFragment clientEditFragment = new ClientEditFragment();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.client_fragment,clientEditFragment);
+                ft.commit();
                 break;
             default:
                 break;
