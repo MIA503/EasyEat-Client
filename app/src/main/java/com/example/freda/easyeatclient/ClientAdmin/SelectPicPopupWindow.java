@@ -1,4 +1,4 @@
-package com.example.freda.easyeatclient;
+package com.example.freda.easyeatclient.ClientAdmin;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
+
+import com.example.freda.easyeatclient.R;
 
 import java.io.File;
 

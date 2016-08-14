@@ -14,7 +14,7 @@
 
 
     <!--color set from lab2-->
-    <color name="colorGray">#353333</color>
+    <color name="colorDark">#272636</color>
     <color name="colorLightCray">#eeeeee</color>
     <color name="colorBlue">#f7279bbe</color>
     <color name="colorLightBlue">#ced2d7</color>

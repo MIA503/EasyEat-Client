@@ -5,4 +5,11 @@
     <string name="takephoto">Take photo</string>
     <string name="choosephoto">Choose form Photos</string>
     <string name="cancle">Cancle</string>
+    <string name="logout">Log out</string>
+    <string name="myProfile">My profile</string>
+    <string name="save">Save</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
 </resources>
