@@ -1,7 +1,9 @@
 package com.example.freda.easyeatclient;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,6 +28,8 @@ import android.widget.ListView;
 
 import com.example.freda.easyeatclient.ClientAdmin.ClientMainFragment;
 import com.example.freda.easyeatclient.Utils.CircleImg;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,8 +39,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-
-
+    public ProgressDialog mProgressDialog;
 
     private Toolbar toolbar;
     private Context mContext;
@@ -52,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(getApplication());
+
         initView();
 
         setDefaultFragment();
@@ -73,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         mDrawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
     }
 
@@ -90,5 +97,20 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_left);
     }
 
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog(Activity activity) {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
 
 }

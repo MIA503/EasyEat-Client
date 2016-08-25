@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "725952005661",
+    "firebase_url": "https://easyeatclient.firebaseio.com",
+    "project_id": "easyeatclient",
+    "storage_bucket": "easyeatclient.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725952005661:android:25d574a3d8ec34e7",
+        "android_client_info": {
+          "package_name": "com.example.freda.easyeatclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725952005661-tj9ps9vu7p845ddpebeh7ujinutme46r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSAwshxn5TDEOfN98Jfm2iuVhzy5S0Pok"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

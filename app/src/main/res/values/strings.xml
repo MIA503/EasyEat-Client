@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">EasyEatClient</string>
+
+    <string name="facebook_app_id">943414702435070</string>
+
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
     <string name="takephoto">Take photo</string>
@@ -12,4 +15,6 @@
     <string name="lastname">Lastname</string>
     <string name="email">Email</string>
     <string name="phone">Phone</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="loading">Loading...</string>
 </resources>
