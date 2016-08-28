@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pagedheadlistview="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ff6347"
+    android:orientation="vertical"
+    android:paddingTop="15dp"
+    android:animateLayoutChanges="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="30dp"
+            android:layout_height="22dp"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="5dp"
+
+            android:src="@drawable/arrow_left" />
+
+        <TextView
+            android:id="@+id/tv_restaurant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="restaurant name"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/restaurant_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+
+        <ImageView
+            android:id="@+id/img_restaurant_photo"
+
+            android:layout_width="80dp"
+            android:paddingTop="3dp"
+            android:layout_height="60dp"
+            android:src="@drawable/noimg" />
+
+
+        <TextView
+            android:id="@+id/tv_opening_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="opening time"
+
+            android:textStyle="bold"
+            android:paddingTop="4dp"
+
+            android:layout_marginLeft="26dp"
+            android:layout_marginStart="26dp"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_toRightOf="@+id/img_restaurant_photo"
+            android:layout_toEndOf="@+id/img_restaurant_photo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="address"
+            android:id="@+id/textView2"
+            android:paddingTop="3dp"
+
+            android:layout_below="@+id/tv_opening_time"
+            android:layout_alignLeft="@+id/tv_opening_time"
+            android:layout_alignStart="@+id/tv_opening_time" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_right"
+            android:id="@+id/imageView" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#20000000"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
