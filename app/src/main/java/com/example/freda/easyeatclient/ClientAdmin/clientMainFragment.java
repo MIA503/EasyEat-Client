@@ -182,37 +182,6 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         clientList.setLayoutManager(linearLayoutManager);
         clientAdapter = new MyRecyclerAdapter(this.getActivity(),initClientData());
-        clientAdapter.setOnItemClickListener(new MyRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                switch (position){
-                    case 0://booking
-                        ClientOrderFragment clientOrderFragment = new ClientOrderFragment();
-                        ft.replace(R.id.client_fragment,clientOrderFragment);
-                        ft.commit();
-                        break;
-                    case 1://review
-                        ClientReviewFragment clientReviewFragment = new ClientReviewFragment();
-                        ft.replace(R.id.client_fragment,clientReviewFragment);
-                        ft.commit();
-                        break;
-                    case 2://favorite
-                        ClientFavoriteFragment clientFavoriteFragment = new ClientFavoriteFragment();
-                        ft.replace(R.id.client_fragment,clientFavoriteFragment);
-                        ft.commit();
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-        });
         clientList.setAdapter(clientAdapter);
     }
 
