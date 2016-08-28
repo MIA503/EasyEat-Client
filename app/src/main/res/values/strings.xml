@@ -20,4 +20,10 @@
     <string name="phone">Phone</string>
     <string name="sign_out">Sign Out</string>
     <string name="loading">Loading...</string>
+
+
+    <!--order food activity-->
+    <string name="order_finish">done</string>
+    <string name="totalPrice">TOTAL</string>
+    <string name="totalNum"></string>
 </resources>
