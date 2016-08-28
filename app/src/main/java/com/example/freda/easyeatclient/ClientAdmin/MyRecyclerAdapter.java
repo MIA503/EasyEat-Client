@@ -20,10 +20,20 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     private LayoutInflater inflater;
     private List<HashMap<String, Object>> myData;
+    private OnItemClickListener mOnItemClickListener;
 
     public MyRecyclerAdapter(Context context, List<HashMap<String, Object>> aVoid) {
         inflater = LayoutInflater.from(context);
         myData = aVoid;
+    }
+
+    public interface OnItemClickListener{
+        void onClick( int position);
+        void onLongClick( int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener ){
+        this.mOnItemClickListener=onItemClickListener;
     }
 
     @Override
@@ -38,9 +48,27 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(MyRecyclerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(MyRecyclerAdapter.ViewHolder holder,final int position) {
         holder.pic.setImageResource((Integer) myData.get(position).get("image"));
         holder.title.setText((CharSequence) myData.get(position).get("title"));
+
+        if( mOnItemClickListener!= null){
+            holder.itemView.setOnClickListener( new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onClick(position);
+                }
+            });
+
+            holder.itemView.setOnLongClickListener( new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mOnItemClickListener.onLongClick(position);
+                    return false;
+                }
+            });
+        }
     }
 
     @Override

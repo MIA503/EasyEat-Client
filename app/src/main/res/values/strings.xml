@@ -10,6 +10,9 @@
     <string name="cancle">Cancle</string>
     <string name="logout">Log out</string>
     <string name="myProfile">My profile</string>
+    <string name="myFavorite">My favorite</string>
+    <string name="myOrder">My order</string>
+    <string name="myReview">My review</string>
     <string name="save">Save</string>
     <string name="firstname">Firstname</string>
     <string name="lastname">Lastname</string>
