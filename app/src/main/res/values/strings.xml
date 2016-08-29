@@ -17,4 +17,6 @@
     <string name="phone">Phone</string>
     <string name="sign_out">Sign Out</string>
     <string name="loading">Loading...</string>
+    <string name="cart">Cart</string>
+    <string name="clear">Clear</string>
 </resources>
