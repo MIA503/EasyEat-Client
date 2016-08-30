@@ -1,6 +1,5 @@
 package com.example.freda.easyeatclient.ClientAdmin;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -26,13 +25,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.freda.easyeatclient.Adapter.ClientListRecyclerAdapter;
 import com.example.freda.easyeatclient.R;
 import com.example.freda.easyeatclient.Utils.CircleImg;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -71,15 +70,15 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
     private Button signOutButton;
     private LoginButton loginButton;
 
-    private MyRecyclerAdapter clientAdapter;
+    private ClientListRecyclerAdapter clientAdapter;
     private SelectPicPopupWindow menuWindow;
     private List<HashMap<String, Object>> mHashMaps;
     private HashMap<String, Object> map;
     private View view;
     private Inflater mInflater;
 
+   // private String testImg;
     private ProgressDialog mProgressDialog;
-
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
@@ -100,8 +99,14 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         editImg = (ImageView) view.findViewById(R.id.edit_img);
         username = (TextView) view.findViewById(R.id.client_name);
         email = (TextView) view.findViewById(R.id.client_email);
-
-
+/////////////
+//        FirebaseStorage storage = FirebaseStorage.getInstance();
+//        StorageReference storageRef = storage.getReferenceFromUrl("gs://easyeatclient.appspot.com");
+//        StorageReference imagesRef = storageRef.child("images");
+//        StorageReference spaceRef = storageRef.child("images/rest1.jpg");
+//
+//        Log.d(TAG,"testImg :"+ testImg);
+////////////
         // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -113,6 +118,7 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+
                     Log.d(TAG, "facebook profile: " + user.getPhotoUrl());
                     Log.d(TAG, "user Email:" + user.getEmail());
                     // User is signed in
@@ -181,7 +187,38 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         clientList.setLayoutManager(linearLayoutManager);
-        clientAdapter = new MyRecyclerAdapter(this.getActivity(),initClientData());
+        clientAdapter = new ClientListRecyclerAdapter(this.getActivity(),initClientData());
+        clientAdapter.setOnItemClickListener(new ClientListRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                switch (position){
+                    case 0://booking
+                        ClientOrderFragment clientOrderFragment = new ClientOrderFragment();
+                        ft.replace(R.id.client_fragment,clientOrderFragment);
+                        ft.commit();
+                        break;
+                    case 1://review
+                        ClientReviewFragment clientReviewFragment = new ClientReviewFragment();
+                        ft.replace(R.id.client_fragment,clientReviewFragment);
+                        ft.commit();
+                        break;
+                    case 2://favorite
+                        ClientFavoriteFragment clientFavoriteFragment = new ClientFavoriteFragment();
+                        ft.replace(R.id.client_fragment,clientFavoriteFragment);
+                        ft.commit();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onLongClick(int position) {
+
+            }
+        });
         clientList.setAdapter(clientAdapter);
     }
 
@@ -189,17 +226,17 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         mHashMaps = new ArrayList<HashMap<String,Object>>();
         map = new HashMap<String, Object>();
 
-        map.put("image",R.drawable.booking64);
+        map.put("image", R.drawable.booking64);
         map.put("title","My booking");
         mHashMaps.add(map);
 
         map = new HashMap<String, Object>();
-        map.put("image",R.drawable.review64);
+        map.put("image", R.drawable.review64);
         map.put("title","My reviews");
         mHashMaps.add(map);
 
         map = new HashMap<String, Object>();
-        map.put("image",R.drawable.favorite64);
+        map.put("image", R.drawable.favorite64);
         map.put("title","My favorite");
         mHashMaps.add(map);
 
@@ -283,6 +320,7 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
                 Picasso.with(getActivity().getApplicationContext())
                         .load(photo)
                         .into(clientPicImg);
+
             } else {
                 Picasso.with(getActivity().getApplicationContext()).load(R.drawable.default_useravatar).into(clientPicImg);
             }
