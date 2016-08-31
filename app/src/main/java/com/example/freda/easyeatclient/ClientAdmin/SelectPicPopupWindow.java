@@ -1,7 +1,11 @@
 package com.example.freda.easyeatclient.ClientAdmin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,6 +14,10 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 
 import com.example.freda.easyeatclient.R;
+
+import java.io.File;
+
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
 /**
  * Created by freda on 8/14/16.
@@ -20,7 +28,7 @@ public class SelectPicPopupWindow extends PopupWindow{
 
     public SelectPicPopupWindow(Context context, View.OnClickListener itemsOnClick) {
         super(context);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMenuView = inflater.inflate(R.layout.pic_dialog,null);
 
         takePhotoBtn = (Button) mMenuView.findViewById(R.id.takePhotoBtn);
