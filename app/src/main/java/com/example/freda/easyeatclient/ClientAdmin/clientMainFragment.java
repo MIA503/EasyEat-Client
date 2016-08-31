@@ -204,14 +204,14 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
                             if (user == null) {
                                 Log.d(TAG, "user is null, a user sign in for the first time...");
 
-                                Map<String, Map> oUser = new HashMap<>();
-                                Map<String, String> iUser = new HashMap<>();
-                                iUser.put("name", mfirebaseuser.getDisplayName());
-                                iUser.put("email", mfirebaseuser.getEmail());
+
+                                Map<String, String> mUser = new HashMap<>();
+                                mUser.put("name", mfirebaseuser.getDisplayName());
+                                mUser.put("email", mfirebaseuser.getEmail());
                                 ///// TODO: 31/08/16
 
-                                oUser.put(userId, iUser);
-                                mDatabase.child("users").setValue(oUser);
+
+                                mDatabase.child("users").child(userId).setValue(mUser);
                             }
                         }
 
@@ -234,7 +234,7 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         clientList.setLayoutManager(linearLayoutManager);
-        clientAdapter = new MyRecyclerAdapter(this.getActivity(),initClientData());
+        clientAdapter = new MyRecyclerAdapter(this.getActivity(), initClientData());
         clientList.setAdapter(clientAdapter);
     }
 
@@ -242,17 +242,17 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         mHashMaps = new ArrayList<HashMap<String,Object>>();
         map = new HashMap<String, Object>();
 
-        map.put("image",R.drawable.booking64);
+        map.put("image", R.drawable.booking64);
         map.put("title","My booking");
         mHashMaps.add(map);
 
         map = new HashMap<String, Object>();
-        map.put("image",R.drawable.review64);
+        map.put("image", R.drawable.review64);
         map.put("title","My reviews");
         mHashMaps.add(map);
 
         map = new HashMap<String, Object>();
-        map.put("image",R.drawable.favorite64);
+        map.put("image", R.drawable.favorite64);
         map.put("title","My favorite");
         mHashMaps.add(map);
 
@@ -377,13 +377,13 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
                 menuWindow.showAtLocation(getActivity().findViewById(R.id.dl_left), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL,0,0);
                 break;
             case R.id.edit_img:
-                ClientEditFragment clientEditFragment = new ClientEditFragment();
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.client_fragment,clientEditFragment);
-                ft.commit();
-//                Intent myIntent = new Intent(this.getActivity(), ShoppingCartActivity.class);
-//                startActivity(myIntent);
+//                ClientEditFragment clientEditFragment = new ClientEditFragment();
+//                FragmentManager fm = getFragmentManager();
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.replace(R.id.client_fragment,clientEditFragment);
+//                ft.commit();
+                Intent myIntent = new Intent(this.getActivity(), ShoppingCartActivity.class);
+                startActivity(myIntent);
                 break;
             case R.id.button_facebook_signout:
                 signOut();
