@@ -37,6 +37,7 @@ public class ClientEditFragment extends Fragment implements View.OnClickListener
                 ft.replace(R.id.client_fragment,clientMainFragment);
                 ft.commit();
                 break;
+
             default:
                 break;
         }

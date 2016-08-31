@@ -10,6 +10,8 @@ public class DishesItem {
     public String name;
     public String typeName;
     public double price;
+    public String description;
+    public String img;
     public int count;
 
     public DishesItem(int id, double price, String name, int typeId, String typeName) {
@@ -19,6 +21,90 @@ public class DishesItem {
         this.typeId = typeId;
         this.typeName = typeName;
         rating = new Random().nextInt(5) + 1;
+    }
+
+    public DishesItem(int id, int typeId, int rating, String name, String typeName, double price, String description, String img, int count) {
+        this.id = id;
+        this.typeId = typeId;
+        this.rating = rating;
+        this.name = name;
+        this.typeName = typeName;
+        this.price = price;
+        this.description = description;
+        this.img = img;
+        this.count = count;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     private static ArrayList<DishesItem> DishesList;

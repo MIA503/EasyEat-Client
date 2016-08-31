@@ -33,6 +33,7 @@
                 android:src="@drawable/icon_cart"
                 android:layout_width="32dp"
                 android:id="@+id/imgCart"
+
                 android:layout_height="32dp" />
 
             <TextView
@@ -73,7 +74,7 @@
         <TextView
             android:textColor="#fff"
             android:layout_width="120dp"
-            android:background="#22c222"
+            android:background="@drawable/selector_sure_btn_bg"
             android:text="check_out"
             android:onClick="onClick"
             android:clickable="true"
