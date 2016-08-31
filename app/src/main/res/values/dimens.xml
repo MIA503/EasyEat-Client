@@ -7,6 +7,8 @@
     <dimen name="itemPadding">3dp</dimen>
     <dimen name="itemHeight">60dp</dimen>
     <dimen name="itemPic">52dp</dimen>
+    <dimen name="cardPic">150dp</dimen>
+    <dimen name="cardTitle">25dp</dimen>
     <dimen name="textSize">23dp</dimen>
     <dimen name="textSizeSmall">15dp</dimen>
 </resources>

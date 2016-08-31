@@ -8,17 +8,18 @@
     android:id="@+id/dl_left"
     tools:context="com.example.freda.easyeatclient.MainActivity">
     <LinearLayout
+        android:orientation="vertical"
         android:background="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <include layout="@layout/toolbar"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/restlist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 
