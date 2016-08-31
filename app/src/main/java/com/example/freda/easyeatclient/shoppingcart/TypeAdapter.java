@@ -17,6 +17,7 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.ViewHolder> {
     public ShoppingCartActivity activity;
     public ArrayList<DishesItem> dataList;
 
+
     public TypeAdapter(ShoppingCartActivity activity, ArrayList<DishesItem> dataList) {
         this.activity = activity;
         this.dataList = dataList;

@@ -1,5 +1,6 @@
 package com.example.freda.easyeatclient.ClientAdmin;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -25,13 +27,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.freda.easyeatclient.Adapter.ClientListRecyclerAdapter;
 import com.example.freda.easyeatclient.R;
+import com.example.freda.easyeatclient.ShoppingCartActivity;
 import com.example.freda.easyeatclient.Utils.CircleImg;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -42,12 +45,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 import java.util.zip.Inflater;
 
 /**
@@ -70,15 +81,16 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
     private Button signOutButton;
     private LoginButton loginButton;
 
-    private ClientListRecyclerAdapter clientAdapter;
+    private MyRecyclerAdapter clientAdapter;
     private SelectPicPopupWindow menuWindow;
     private List<HashMap<String, Object>> mHashMaps;
     private HashMap<String, Object> map;
     private View view;
     private Inflater mInflater;
 
-   // private String testImg;
+    private FirebaseUser mfirebaseuser;
     private ProgressDialog mProgressDialog;
+
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
@@ -87,6 +99,8 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
     private FirebaseAuth.AuthStateListener mAuthListener;
     // [END declare_auth_listener]
     private CallbackManager mCallbackManager;
+
+    private DatabaseReference mDatabase;
 
 
 
@@ -99,14 +113,11 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         editImg = (ImageView) view.findViewById(R.id.edit_img);
         username = (TextView) view.findViewById(R.id.client_name);
         email = (TextView) view.findViewById(R.id.client_email);
-/////////////
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//        StorageReference storageRef = storage.getReferenceFromUrl("gs://easyeatclient.appspot.com");
-//        StorageReference imagesRef = storageRef.child("images");
-//        StorageReference spaceRef = storageRef.child("images/rest1.jpg");
-//
-//        Log.d(TAG,"testImg :"+ testImg);
-////////////
+
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
         // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -116,19 +127,22 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-
-                    Log.d(TAG, "facebook profile: " + user.getPhotoUrl());
-                    Log.d(TAG, "user Email:" + user.getEmail());
+                mfirebaseuser = firebaseAuth.getCurrentUser();
+                if (mfirebaseuser != null) {
+                    Log.d(TAG, "1facebook profile: " + mfirebaseuser.getPhotoUrl());
+                    Log.d(TAG, "user Email:" + mfirebaseuser.getEmail());
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+
+                    CreatUserDatabase creatUserDatabase = new CreatUserDatabase();
+                    creatUserDatabase.execute();
+
+                    Log.d(TAG, "1onAuthStateChanged:signed_in:" + mfirebaseuser.getUid());
                 } else {
                     // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                    Log.d(TAG, "1onAuthStateChanged:signed_out");
                 }
                 // [START_EXCLUDE]
-                updateUI(user);
+                updateUI(mfirebaseuser);
                 // [END_EXCLUDE]
             }
         };
@@ -177,6 +191,39 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
 
     }
 
+    public class CreatUserDatabase extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            final String userId = mfirebaseuser.getUid();
+            mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // Get user value
+                            User user = dataSnapshot.getValue(User.class);
+                            if (user == null) {
+                                Log.d(TAG, "user is null, a user sign in for the first time...");
+
+                                Map<String, Map> oUser = new HashMap<>();
+                                Map<String, String> iUser = new HashMap<>();
+                                iUser.put("name", mfirebaseuser.getDisplayName());
+                                iUser.put("email", mfirebaseuser.getEmail());
+                                ///// TODO: 31/08/16
+
+                                oUser.put(userId, iUser);
+                                mDatabase.child("users").setValue(oUser);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                        }
+                    });
+            return null;
+        }
+    }
+
 
     private void initView() {
 
@@ -187,38 +234,7 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         clientList.setLayoutManager(linearLayoutManager);
-        clientAdapter = new ClientListRecyclerAdapter(this.getActivity(),initClientData());
-        clientAdapter.setOnItemClickListener(new ClientListRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                switch (position){
-                    case 0://booking
-                        ClientOrderFragment clientOrderFragment = new ClientOrderFragment();
-                        ft.replace(R.id.client_fragment,clientOrderFragment);
-                        ft.commit();
-                        break;
-                    case 1://review
-                        ClientReviewFragment clientReviewFragment = new ClientReviewFragment();
-                        ft.replace(R.id.client_fragment,clientReviewFragment);
-                        ft.commit();
-                        break;
-                    case 2://favorite
-                        ClientFavoriteFragment clientFavoriteFragment = new ClientFavoriteFragment();
-                        ft.replace(R.id.client_fragment,clientFavoriteFragment);
-                        ft.commit();
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onLongClick(int position) {
-
-            }
-        });
+        clientAdapter = new MyRecyclerAdapter(this.getActivity(),initClientData());
         clientList.setAdapter(clientAdapter);
     }
 
@@ -226,17 +242,17 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         mHashMaps = new ArrayList<HashMap<String,Object>>();
         map = new HashMap<String, Object>();
 
-        map.put("image", R.drawable.booking64);
+        map.put("image",R.drawable.booking64);
         map.put("title","My booking");
         mHashMaps.add(map);
 
         map = new HashMap<String, Object>();
-        map.put("image", R.drawable.review64);
+        map.put("image",R.drawable.review64);
         map.put("title","My reviews");
         mHashMaps.add(map);
 
         map = new HashMap<String, Object>();
-        map.put("image", R.drawable.favorite64);
+        map.put("image",R.drawable.favorite64);
         map.put("title","My favorite");
         mHashMaps.add(map);
 
@@ -271,12 +287,26 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
         // [END_EXCLUDE]
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this.getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
+//                        if(task.isSuccessful()){
+//                            final String  userId = gerUid();
+//                            mDatabase.child("Users").child(userId)).addListenerForSingleValueEvent(
+//
+//
+//                            if( mDatabase.child("UserList").child(userId)==null){
+//                                mUser.setName(user.getDisplayName());
+//                                mUser.setEmail(user.getEmail());
+//
+//                                mDatabase.child("UserList").child(user.getUid()).setValue(mUser);
+//                            }
+//                        }
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -320,13 +350,13 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
                 Picasso.with(getActivity().getApplicationContext())
                         .load(photo)
                         .into(clientPicImg);
-
             } else {
                 Picasso.with(getActivity().getApplicationContext()).load(R.drawable.default_useravatar).into(clientPicImg);
             }
 
             loginButton.setVisibility(View.GONE);
             signOutButton.setVisibility(View.VISIBLE);
+
         } else {
             username.setText("UserName");
             email.setText("Email");
@@ -352,6 +382,8 @@ public class ClientMainFragment extends Fragment implements View.OnClickListener
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.client_fragment,clientEditFragment);
                 ft.commit();
+//                Intent myIntent = new Intent(this.getActivity(), ShoppingCartActivity.class);
+//                startActivity(myIntent);
                 break;
             case R.id.button_facebook_signout:
                 signOut();
