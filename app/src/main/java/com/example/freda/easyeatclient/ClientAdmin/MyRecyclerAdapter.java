@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by freda on 8/14/16.
  */
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder>{
+public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
     private List<HashMap<String, Object>> myData;
@@ -28,7 +28,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     @Override
     public MyRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.client_list_item,parent,false);
+        View view = inflater.inflate(R.layout.client_list_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
         viewHolder.pic = (ImageView) view.findViewById(R.id.client_item_pic);
@@ -48,11 +48,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         return myData.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(View itemView) {
             super(itemView);
         }
+
         ImageView pic;
         TextView title;
     }
