@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class ClientEditFragment extends Fragment implements View.OnClickListener
                 ft.replace(R.id.client_fragment,clientMainFragment);
                 ft.commit();
                 break;
+
             default:
                 break;
         }
